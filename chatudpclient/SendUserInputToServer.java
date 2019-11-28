@@ -6,16 +6,14 @@
 package chatudpclient;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.net.*;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author Prof Matteo Palitto 
+ * @author Scarciglia Simone
  */
 public class SendUserInputToServer implements Runnable {
     DatagramSocket socket;
@@ -35,14 +33,18 @@ public class SendUserInputToServer implements Runnable {
 
         byte[] buffer;
         String messaggio;
+        String username;
         Scanner tastiera = new Scanner(System.in);
         DatagramPacket userDatagram;
 
+        System.out.print("Inserisci Username: ");
+        username = tastiera.nextLine();
+        
         try {
             System.out.print("> ");
             do {
                 //Leggo da tastiera il messaggio utente vuole inviare
-                messaggio = tastiera.nextLine();
+                messaggio = username + ": " + tastiera.nextLine();
 
                 //Trasformo in array di byte la stringa che voglio inviare
                 buffer = messaggio.getBytes("UTF-8");
