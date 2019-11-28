@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author pc15
+ * @author Scarciglia Simone
  */
 public class ServerUDPEcho {
 
