@@ -5,13 +5,8 @@
  */
 package chatudpclient;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.io.*;
+import java.net.*;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +15,7 @@ import chatudpclient.ReceiveFromServerAndPrint;
 
 /**
  *
- * @author Prof Matteo Palitto
+ * @author Scarciglia Simone
  */
 public class ChatUDPclient {
 
