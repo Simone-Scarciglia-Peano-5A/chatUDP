@@ -12,12 +12,13 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author Prof Matteo Palitto
+ * @author Scarciglia Simone
  */
 
 //utilizzo la classe Clients per memorizzare indirizzo e porta dei clients che si collegano al server
@@ -56,6 +57,8 @@ public class UDPEcho implements Runnable {
         //la stringa con il messaggio ricevuto
         String message;
         
+        LinkedList<String> linkedList = new LinkedList<String>();
+        
         while (!Thread.interrupted()){
             try {
                 socket.receive(request); //mi metto in attesa di ricevere pacchetto da un clinet
@@ -67,13 +70,24 @@ public class UDPEcho implements Runnable {
                 //verifico se il client e' gia' conosciuto o se e' la prima volta che invia un pacchetto
                 if(clients.get(clientID) == null) {
                     //nel caso sia la prima volta lo inserisco nella lista
-                    clients.put(clientID, new Clients(client.addr, client.port)); 
+                    clients.put(clientID, new Clients(client.addr, client.port));
+                    for(int i = 0; i > linkedList.size(); i++){
+                        answer = new DatagramPacket(linkedList.get(i).getBytes(), linkedList.get(i).getBytes().length, client.addr, client.port);
+                        socket.send(answer);
+                    
+                    }
                 }
                 System.out.println(clients);
                 message = new String(request.getData(), 0, request.getLength(), "ISO-8859-1");
                 if(message == "quit") {
                     //client si e' rimosso da chat, lo rimuovo da lista dei client connessi
                     clients.remove(clientID);
+                }
+                if (linkedList.size() < 10){
+                    linkedList.add(message);
+                }else {
+                    linkedList.removeLast();
+                    linkedList.addFirst(message);
                 }
 
                 //invio il messaggio ricevuto a tutti i client connessi al server
